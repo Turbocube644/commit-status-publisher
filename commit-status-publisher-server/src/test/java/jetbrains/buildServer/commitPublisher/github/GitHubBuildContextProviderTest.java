@@ -3,7 +3,6 @@ package jetbrains.buildServer.commitPublisher.github;
 import jetbrains.buildServer.commitPublisher.Constants;
 import jetbrains.buildServer.messages.Status;
 import jetbrains.buildServer.pipeline.PipelineProject;
-import jetbrains.buildServer.pipeline.builders.PipelineYamlBuilder;
 import jetbrains.buildServer.serverSide.*;
 import jetbrains.buildServer.serverSide.impl.BaseServerTestCase;
 import jetbrains.buildServer.util.TestFor;
@@ -58,7 +57,7 @@ public class GitHubBuildContextProviderTest extends BaseServerTestCase {
   @Test
   public void default_context_for_pipeline_head() throws Exception {
     final String pipelineName = "Pipeline Project";
-    PipelineProject pipelineProject = myProject.createPipelineProject("extId", pipelineName, PipelineYamlBuilder.BASIC_YAML);
+    PipelineProject pipelineProject = myProject.createPipelineProject("extId", pipelineName, "name: name");
     SBuildType pipelineHead = pipelineProject.getPipelineHead();
     SFinishedBuild build = createBuild(pipelineHead, Status.NORMAL);
     String buildName = myProvider.getBuildName(build.getBuildPromotion());
