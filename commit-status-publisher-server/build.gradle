@@ -18,22 +18,18 @@
 
 dependencies {
     compile 'org.apache.httpcomponents:httpclient:4.5.14'
+    compile fileTree(dir: "$rootProject.ext.teamcityLibs", include: ['*.jar'], exclude: ['httpcore*.jar', 'httpclient*.jar'])
     compile "org.apache.tomcat:tomcat-servlet-api:8.5.32"
     compile 'com.github.mwiede:jsch:0.1.67'
-    compile("org.jetbrains.teamcity:web-core:$teamcityVersion") {
+    compile("org.jetbrains.teamcity:server-api:$rootProject.ext.teamcityVersion") {
       exclude group: 'com.google.guava', module: 'guava'
     }
     compile "com.google.guava:guava:31.1-android"
-    testCompile("org.jetbrains.teamcity:tests-support:$teamcityVersion") {
-      exclude group: 'com.google.guava', module: 'guava'
-    }
-    testCompile("org.jetbrains.teamcity:server-test-core:$teamcityVersion") {
-      exclude group: 'com.google.guava', module: 'guava'
-    }
-    testCompile("org.jetbrains.teamcity:web-test-core:$teamcityVersion") {
+    testCompile("org.jetbrains.teamcity:tests-support:$rootProject.ext.teamcityVersion") {
       exclude group: 'com.google.guava', module: 'guava'
     }
     testCompile "jmock:jmock:1.2.0"
+    testCompile fileTree(dir: "$rootProject.ext.teamcityTestLibs", include: ['*.jar'])
     testCompile 'org.assertj:assertj-core:1.7.1'
     testCompile 'org.testng:testng:6.8'
     testCompile "org.mockito:mockito-core:3.9.0"
@@ -47,14 +43,7 @@ sourceSets {
   }
 }
 
-test {
-  useTestNG() {
-    useDefaultListeners = true
-    suites 'src/test/testng-commit-status-publisher.xml'
-  }
-}
-
 jar {
   baseName = 'commit-status-publisher'
-  version =  "$teamcityVersion"
+  version =  "$rootProject.ext.teamcityVersion"
 }
